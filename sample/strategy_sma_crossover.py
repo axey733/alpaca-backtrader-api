@@ -1,10 +1,11 @@
 import alpaca_backtrader_api
 import backtrader as bt
 from datetime import datetime
+import pandas as pd
 
 # Your credentials here
-ALPACA_API_KEY = "<key_id>"
-ALPACA_SECRET_KEY = "<secret_key>"
+ALPACA_API_KEY = "PK95O39SG97BFP33X95R"
+ALPACA_SECRET_KEY = "cDa/ti8eA63dyX1ojj9MWNDgmJ4xLTu/xO1nc502"
 # change to True if you want to do live paper trading with Alpaca Broker.
 #  False will do a back test
 ALPACA_PAPER = False
@@ -58,8 +59,8 @@ if __name__ == '__main__':
     store = alpaca_backtrader_api.AlpacaStore(
         key_id=ALPACA_API_KEY,
         secret_key=ALPACA_SECRET_KEY,
-        paper=True,
-        usePolygon=USE_POLYGON
+        paper=True
+        #usePolygon=USE_POLYGON
     )
 
     DataFactory = store.getdata  # or use alpaca_backtrader_api.AlpacaData
@@ -72,7 +73,7 @@ if __name__ == '__main__':
         cerebro.setbroker(broker)
     else:
         data0 = DataFactory(dataname='AAPL', historical=True, fromdate=datetime(
-            2015, 1, 1), timeframe=bt.TimeFrame.Days)
+            2020, 4, 4), timeframe=bt.TimeFrame.Days)
     cerebro.adddata(data0)
 
     if not ALPACA_PAPER:

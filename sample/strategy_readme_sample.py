@@ -1,11 +1,12 @@
 # This is the example code from the repo's README
 import alpaca_backtrader_api
 import backtrader as bt
+import pandas as pd
 from datetime import datetime
 
 # Your credentials here
-ALPACA_API_KEY = "<key_id>"
-ALPACA_SECRET_KEY = "<secret_key>"
+ALPACA_API_KEY = "PK95O39SG97BFP33X95R"
+ALPACA_SECRET_KEY = "cDa/ti8eA63dyX1ojj9MWNDgmJ4xLTu/xO1nc502"
 # change to True if you want to do live paper trading with Alpaca Broker.
 #  False will do a back test
 ALPACA_PAPER = False
@@ -25,8 +26,8 @@ if __name__ == '__main__':
     store = alpaca_backtrader_api.AlpacaStore(
         key_id=ALPACA_API_KEY,
         secret_key=ALPACA_SECRET_KEY,
-        paper=True,
-        usePolygon=USE_POLYGON
+        paper=True
+        #usePolygon=USE_POLYGON
     )
 
     DataFactory = store.getdata  # or use alpaca_backtrader_api.AlpacaData
@@ -39,9 +40,14 @@ if __name__ == '__main__':
         broker = store.getbroker()
         cerebro.setbroker(broker)
     else:
-        data0 = DataFactory(dataname='AAPL', historical=True, fromdate=datetime(
-            2015, 1, 1), timeframe=bt.TimeFrame.Days)
-    cerebro.adddata(data0)
+        DataFactory = store.getdata
+        data0 = DataFactory(
+            dataname='AAPL',
+            timeframe=bt.TimeFrame.TFrame("Minutes"),
+            fromdate=pd.Timestamp('2020-07-06'),
+            todate=pd.Timestamp('2020-07-07'),
+            historical=True)
+        cerebro.adddata(data0)
 
     print('Starting Portfolio Value: {}'.format(cerebro.broker.getvalue()))
     cerebro.run()
